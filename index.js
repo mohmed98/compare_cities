@@ -13,34 +13,81 @@ submitBtn.addEventListener("click", function () {
   let secondCitydata = [];
   // get request date and calulte 8 days bevore and store it in dates array
   const dates = req_dates();
+  let tableHeaderValues = ["Name"];
+  for (let i = 0; i < dates.length; i++) {
+    tableHeaderValues.push(dates[i]);
+  }
+  let maxTempTable = document.createElement("table");
+  let headerRow = maxTempTable.insertRow(0);
+
+  for (let i = 0; i < tableHeaderValues.length; i++) {
+    let tempCellContainer = headerRow.insertCell(i);
+    let tempCellValue = document.createTextNode(tableHeaderValues[i]);
+    tempCellContainer.appendChild(tempCellValue);
+  }
+  let firstCityRow = maxTempTable.insertRow(1);
+  let secondCityRow = maxTempTable.insertRow(2);
+
   //fetch each day wether data
   for (let i = 0; i < dates.length; i++) {
     // first city fetch function call
     getData(firstCityName.value, dates[i]).then((data) => {
+      console.log(data.forecast.forecastday[0].day.maxtemp_c);
+      let tempCellContainer = firstCityRow.insertCell(i);
+      let tempCellValue = document.createTextNode(
+        data.forecast.forecastday[0].day.maxtemp_c
+      );
+      tempCellContainer.appendChild(tempCellValue);
+
       fistCitydata.push(
         // store response data in new object and then pushed it in array
         new HisCityDayWeather(
           data.location.name,
-          data.forecast.forecastday[0].day,
+          data.forecast.forecastday[0].day.maxtemp_c,
           data.forecast.forecastday[0].date
         )
       );
 
-      console.log(fistCitydata[i]);
+      // console.log(fistCitydata);
     });
 
-    getData(secondCityName.value, dates[i]).then((data) => {
-      secondCitydata.push(
-        new HisCityDayWeather(
-          data.location.name,
-          data.forecast.forecastday[0].day,
-          data.forecast.forecastday[0].date
-        )
-      );
+    // getData(secondCityName.value, dates[i]).then((data) => {
+    //   secondCitydata.push(
+    //     new HisCityDayWeather(
+    //       data.location.name,
+    //       data.forecast.forecastday[0].day,
+    //       data.forecast.forecastday[0].date
+    //     )
+    //   );
 
-      console.log(secondCitydata[i]);
-    });
+    //   // console.log(secondCitydata[i]);
+    // });
   }
+
+  // let headerRow = maxTempTable.insertRow(0);
+
+  // for (let i = 0; i < tableHeaderValues.length; i++) {
+  //   let tempCellContainer = headerRow.insertCell(i);
+  //   let tempCellValue = document.createTextNode(tableHeaderValues[i]);
+  //   tempCellContainer.appendChild(tempCellValue);
+  // }
+  // let firstCityRow = maxTempTable.insertRow(1);
+  // let secondCityRow = maxTempTable.insertRow(2);
+
+  // for (let i = 0; i < 8; i++) {
+  //   console.log(fistCitydata.length);
+
+  //   // let tempCellContainer = firstCityRow.insertCell(i);
+  //   // if (i == 0) {
+  //   //   let tempCellValue = document.createTextNode(fistCitydata[i].name);
+  //   // } else {
+  //   //   let tempCellValue = document.createTextNode(
+  //   //     fistCitydata[i].forecast.forecastday[0].day.maxtemp_c
+  //   //   );
+  //   // }
+  //   // tempCellContainer.appendChild(tempCellValue);
+  // }
+  resultArea.appendChild(maxTempTable);
 });
 // date function
 function req_dates() {
