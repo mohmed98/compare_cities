@@ -4,42 +4,23 @@ const wKey = "3684574286a446a6ac4122632200508";
 const submitBtn = document.getElementById("submitBtn");
 const resultArea = document.getElementById("resultSec");
 // the mail function that start the script when user submit cities names
+
 submitBtn.addEventListener("click", function () {
   // getting user data
   const firstCityName = document.getElementById("firstCityName");
   const secondCityName = document.getElementById("secondCityName");
   // inilize arrays for strong city weather daya for 8 days
-  let fistCitydata = [];
+  const firstCitydata = new Array();
   let secondCitydata = [];
   // get request date and calulte 8 days bevore and store it in dates array
   const dates = req_dates();
-  let tableHeaderValues = ["Name"];
-  for (let i = 0; i < dates.length; i++) {
-    tableHeaderValues.push(dates[i]);
-  }
-  let maxTempTable = document.createElement("table");
-  let headerRow = maxTempTable.insertRow(0);
-
-  for (let i = 0; i < tableHeaderValues.length; i++) {
-    let tempCellContainer = headerRow.insertCell(i);
-    let tempCellValue = document.createTextNode(tableHeaderValues[i]);
-    tempCellContainer.appendChild(tempCellValue);
-  }
-  let firstCityRow = maxTempTable.insertRow(1);
-  let secondCityRow = maxTempTable.insertRow(2);
 
   //fetch each day wether data
   for (let i = 0; i < dates.length; i++) {
     // first city fetch function call
     getData(firstCityName.value, dates[i]).then((data) => {
-      console.log(data.forecast.forecastday[0].day.maxtemp_c);
-      let tempCellContainer = firstCityRow.insertCell(i);
-      let tempCellValue = document.createTextNode(
-        data.forecast.forecastday[0].day.maxtemp_c
-      );
-      tempCellContainer.appendChild(tempCellValue);
-
-      fistCitydata.push(
+      // console.log(data.forecast.forecastday[0].day.maxtemp_c);
+      firstCitydata.push(
         // store response data in new object and then pushed it in array
         new HisCityDayWeather(
           data.location.name,
@@ -47,9 +28,10 @@ submitBtn.addEventListener("click", function () {
           data.forecast.forecastday[0].date
         )
       );
-
-      // console.log(fistCitydata);
+      // console.log(firstCitydata[i].day);
+      // console.log(firstCitydata[i].date);
     });
+    console.log(firstCitydata);
 
     // getData(secondCityName.value, dates[i]).then((data) => {
     //   secondCitydata.push(
@@ -62,32 +44,11 @@ submitBtn.addEventListener("click", function () {
 
     //   // console.log(secondCitydata[i]);
     // });
+    // console.log(firstCitydata[0]);
+    build_3Row_table(dates, firstCitydata, firstCitydata);
   }
 
-  // let headerRow = maxTempTable.insertRow(0);
-
-  // for (let i = 0; i < tableHeaderValues.length; i++) {
-  //   let tempCellContainer = headerRow.insertCell(i);
-  //   let tempCellValue = document.createTextNode(tableHeaderValues[i]);
-  //   tempCellContainer.appendChild(tempCellValue);
-  // }
-  // let firstCityRow = maxTempTable.insertRow(1);
-  // let secondCityRow = maxTempTable.insertRow(2);
-
-  // for (let i = 0; i < 8; i++) {
-  //   console.log(fistCitydata.length);
-
-  //   // let tempCellContainer = firstCityRow.insertCell(i);
-  //   // if (i == 0) {
-  //   //   let tempCellValue = document.createTextNode(fistCitydata[i].name);
-  //   // } else {
-  //   //   let tempCellValue = document.createTextNode(
-  //   //     fistCitydata[i].forecast.forecastday[0].day.maxtemp_c
-  //   //   );
-  //   // }
-  //   // tempCellContainer.appendChild(tempCellValue);
-  // }
-  resultArea.appendChild(maxTempTable);
+  // resultArea.appendChild(maxTempTable);
 });
 // date function
 function req_dates() {
@@ -130,4 +91,45 @@ function HisCityDayWeather(name, dayweather, date) {
   this.name = name;
   this.day = dayweather;
   this.date = date;
+  this.getN = function () {
+    return name;
+  };
+}
+
+function build_3Row_table(dateArr, firstRow, secondRow) {
+  // console.log(firstRow[0]);
+
+  // console.log(Object.keys(firstRow));
+  // console.log(firstRow[0]);
+  // console.log(firstRow[0]);
+  let tableHeaderValues = ["Name"];
+  for (let i = 0; i < dateArr.length; i++) {
+    tableHeaderValues.push(dateArr[i]);
+  }
+
+  let maxTempTable = document.createElement("table");
+  let headerRow = maxTempTable.insertRow(0);
+
+  for (let i = 0; i < tableHeaderValues.length; i++) {
+    let tempCellContainer = headerRow.insertCell(i);
+    let tempCellValue = document.createTextNode(tableHeaderValues[i]);
+    tempCellContainer.appendChild(tempCellValue);
+  }
+  let firstCityRow = maxTempTable.insertRow(1);
+  let secondCityRow = maxTempTable.insertRow(2);
+
+  // for (let i = 0; i < dateArr.length; i++) {
+  //   let r1TempCellValue = firstCityRow.insertCell(i);
+  //   if (i === 0) {
+  //     r1TempCellValue.innerHTML = firstRow[i].name;
+  //   } else {
+  //     for (let j = 0; j < firstRow.length; i++) {
+  //       if (dateArr[i] == firstRow[j].date) {
+  //         console.log("true");
+  //         r1TempCellValue.innerHTML = firstRow[j].day;
+  //       }
+  //     }
+  //   }
+  // }
+  resultArea.appendChild(maxTempTable);
 }
