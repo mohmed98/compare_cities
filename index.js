@@ -1,3 +1,4 @@
+"use strict";
 // global vairables
 
 const wKey = "3684574286a446a6ac4122632200508";
@@ -14,24 +15,33 @@ submitBtn.addEventListener("click", function () {
   let secondCitydata = [];
   // get request date and calulte 8 days bevore and store it in dates array
   const dates = req_dates();
-
+  let temp = new HisCityDayWeather();
   //fetch each day wether data
   for (let i = 0; i < dates.length; i++) {
     // first city fetch function call
     getData(firstCityName.value, dates[i]).then((data) => {
       // console.log(data.forecast.forecastday[0].day.maxtemp_c);
-      firstCitydata.push(
-        // store response data in new object and then pushed it in array
-        new HisCityDayWeather(
-          data.location.name,
-          data.forecast.forecastday[0].day.maxtemp_c,
-          data.forecast.forecastday[0].date
-        )
-      );
-      // console.log(firstCitydata[i].day);
-      // console.log(firstCitydata[i].date);
+
+      temp.name = data.location.name;
+      temp.day.push(data.forecast.forecastday[0].day.maxtemp_c);
+      temp.date.push(data.forecast.forecastday[0].date);
+      // console.log(temp);
+
+      // (
+      //   data.location.name,
+      //  ,
+      //   data.forecast.forecastday[0].date,
+      //   i
+      // );
+      stor_in_array(temp);
     });
-    console.log(firstCitydata);
+    function stor_in_array(citydata) {
+      console.log(citydata.day.length);
+
+      if (citydata.day.length === 8) {
+        build_3Row_table(dates, citydata, citydata);
+      }
+    }
 
     // getData(secondCityName.value, dates[i]).then((data) => {
     //   secondCitydata.push(
@@ -45,7 +55,6 @@ submitBtn.addEventListener("click", function () {
     //   // console.log(secondCitydata[i]);
     // });
     // console.log(firstCitydata[0]);
-    build_3Row_table(dates, firstCitydata, firstCitydata);
   }
 
   // resultArea.appendChild(maxTempTable);
@@ -87,21 +96,15 @@ async function getData(cityName, date) {
   }
 }
 
-function HisCityDayWeather(name, dayweather, date) {
+function HisCityDayWeather() {
   this.name = name;
-  this.day = dayweather;
-  this.date = date;
-  this.getN = function () {
-    return name;
-  };
+  this.day = [];
+  this.date = [];
 }
 
 function build_3Row_table(dateArr, firstRow, secondRow) {
-  // console.log(firstRow[0]);
+  console.log(firstRow.name);
 
-  // console.log(Object.keys(firstRow));
-  // console.log(firstRow[0]);
-  // console.log(firstRow[0]);
   let tableHeaderValues = ["Name"];
   for (let i = 0; i < dateArr.length; i++) {
     tableHeaderValues.push(dateArr[i]);
@@ -118,18 +121,14 @@ function build_3Row_table(dateArr, firstRow, secondRow) {
   let firstCityRow = maxTempTable.insertRow(1);
   let secondCityRow = maxTempTable.insertRow(2);
 
-  // for (let i = 0; i < dateArr.length; i++) {
-  //   let r1TempCellValue = firstCityRow.insertCell(i);
-  //   if (i === 0) {
-  //     r1TempCellValue.innerHTML = firstRow[i].name;
-  //   } else {
-  //     for (let j = 0; j < firstRow.length; i++) {
-  //       if (dateArr[i] == firstRow[j].date) {
-  //         console.log("true");
-  //         r1TempCellValue.innerHTML = firstRow[j].day;
-  //       }
-  //     }
-  //   }
-  // }
+  for (let i = 0; i <= firstRow.day.length; i++) {
+    console.log(`loop number ${i} temp = ${firstRow.day[i]}`);
+    let r1TempCellValue = firstCityRow.insertCell(i);
+    if (i > 0) {
+      r1TempCellValue.innerHTML = new String(firstRow.day[i - 1]);
+    } else {
+      r1TempCellValue.innerHTML = firstRow.name;
+    }
+  }
   resultArea.appendChild(maxTempTable);
 }
