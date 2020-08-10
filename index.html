@@ -7,26 +7,41 @@
     <link rel="stylesheet" href="style.css" />
   </head>
 
-  <body>
-    <label for="firstCityName">
-      First City
-      <input
-        type="text"
-        name="firstCityName"
-        id="firstCityName"
-        placeholder="Example: your current city"
-      />
-    </label>
-    <label for="secondCityName">
-      Second City
-      <input
-        type="text"
-        name="secondCityName"
-        id="secondCityName"
-        placeholder="Example: Your dream city"
-      />
-    </label>
-    <input type="submit" value="search" id="submitBtn" />
+  <body class="container">
+    <section class="header">
+      <header>
+        <h1>Compare Cities Weather</h1>
+      </header>
+    </section>
+    <section class="form">
+      <h2>Enter Cities Names</h2>
+      <div class="form--wrapper">
+        <label for="firstCityName" class="form--inputSec">
+          First City
+          <input
+            class="form--inputSec--input"
+            type="text"
+            name="firstCityName"
+            id="firstCityName"
+            placeholder="Example: your current city"
+          />
+        </label>
+        <label for="secondCityName" class="form--inputSec">
+          Second City
+          <input
+            class="form--inputSec--input"
+            type="text"
+            name="secondCityName"
+            id="secondCityName"
+            placeholder="Example: Your dream city"
+          />
+        </label>
+        <button id="submitBtn" class="form--submit">
+          Compare
+        </button>
+      </div>
+    </section>
+    <hr />
     <div id="resultSec"></div>
 
     <script src="index.js"></script>

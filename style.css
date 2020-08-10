@@ -1,3 +1,55 @@
-body{
-    font-family: Arial, Helvetica, sans-serif;
+* {
+  box-sizing: border-box;
+}
+:root {
+  --wbackground: #f9f9f9;
+  --fontColor: #2a2725;
+  --orangeColor: #eb692e;
+}
+
+.container {
+  margin: 1em;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--wbackground);
+}
+.header {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  display: inline-block;
+  background-color: var(--orangeColor);
+  color: var(--fontColor);
+  border-radius: 10px;
+  padding: 0 1em;
+  font-weight: 900;
+}
+.form {
+  margin: 3em 2em;
+  justify-content: space-evenly;
+  display: flex;
+  flex-direction: column;
+}
+.form--wrapper {
+  display: flex;
+  justify-content: flex-start;
+}
+.form--inputSec {
+  margin-right: 2em;
+  font-size: 1.5em;
+  color: gray;
+}
+.form--inputSec--input {
+  padding: 5px;
+  border: none;
+  border-bottom: 1px solid;
+  outline-color: gray;
+}
+.form--submit {
+  border: none;
+  background-color: var(--orangeColor);
+  color: var(--fontColor);
+  border-radius: 5px;
+  font-size: 1em;
+}
+.form--submit:hover {
+  color: #fff;
+  cursor: pointer;
 }

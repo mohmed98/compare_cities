@@ -36,7 +36,7 @@ submitBtn.addEventListener("click", function () {
   function stor_in_array(citydata) {
     // console.log(citydata.day.length);
 
-    if (citydata[1].day.length === 8) {
+    if (citydata[1].day.length === 8 && citydata[0].day.length === 8) {
       build_3Row_table(dates, citydata[0], citydata[1]);
     }
   }
@@ -87,7 +87,11 @@ function HisCityDayWeather() {
 
 function build_3Row_table(dateArr, firstRow, secondRow) {
   // console.log(firstRow.name);
-
+  const tableTitle = document.createElement("h2");
+  const tableTitleContnet = document.createTextNode(
+    "Max Temprture in Celsuios"
+  );
+  tableTitle.appendChild(tableTitleContnet);
   let tableHeaderValues = ["Name"];
   for (let i = 0; i < dateArr.length; i++) {
     tableHeaderValues.push(firstRow.date[i]);
@@ -113,5 +117,6 @@ function build_3Row_table(dateArr, firstRow, secondRow) {
       r2TempCellValue.innerHTML = secondRow.name;
     }
   }
+  resultArea.appendChild(tableTitle);
   resultArea.appendChild(maxTempTable);
 }
