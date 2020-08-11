@@ -59,3 +59,28 @@
   height: 25%;
   margin: auto;
 }
+.dataTable {
+  border-radius: 10px;
+  -webkit-box-shadow: 10px -7px 11px -6px var(--orangeColor);
+  -moz-box-shadow: 10px -7px 11px -6px var(--orangeColor);
+  box-shadow: 10px -7px 11px -6px var(--orangeColor);
+  border-collapse: collapse;
+}
+.dataTable td {
+  /* border: 1px solid; */
+  padding: 0.25em;
+  text-align: center;
+}
+.copyRight {
+  display: flex;
+  justify-content: flex-end;
+  text-decoration: none;
+  color: gray;
+}
+.copyRight:hover {
+  text-decoration: underline;
+  color: darkgrey;
+}
+.resultSec {
+  width: fit-content;
+}
