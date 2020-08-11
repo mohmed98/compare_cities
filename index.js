@@ -4,10 +4,14 @@
 const wKey = "3684574286a446a6ac4122632200508";
 const submitBtn = document.getElementById("submitBtn");
 const resultArea = document.getElementById("resultSec");
+const loadingSec = document.querySelector(".loadingSec");
 // the mail function that start the script when user submit cities names
 
 submitBtn.addEventListener("click", function () {
   // getting user data
+  resultArea.innerHTML = "";
+
+  loadingSec.style.display = "block";
   const firstCityName = document.getElementById("firstCityName");
   const secondCityName = document.getElementById("secondCityName");
   // inilize arrays for strong city weather daya for 8 days
@@ -22,25 +26,24 @@ submitBtn.addEventListener("click", function () {
 
     getData(firstCityName.value, dates[i]).then((data) => {
       currentReq[0].name = data.location.name;
-      currentReq[0].day.push(data.forecast.forecastday[0].day.maxtemp_c);
+      currentReq[0].day.push(data.forecast.forecastday[0].day);
       currentReq[0].date.push(data.forecast.forecastday[0].date);
     });
 
     getData(secondCityName.value, dates[i]).then((data) => {
       currentReq[1].name = data.location.name;
-      currentReq[1].day.push(data.forecast.forecastday[0].day.maxtemp_c);
+      currentReq[1].day.push(data.forecast.forecastday[0].day);
       currentReq[1].date.push(data.forecast.forecastday[0].date);
       stor_in_array(currentReq);
     });
   }
   function stor_in_array(citydata) {
-    // console.log(citydata.day.length);
+    if (citydata[1].day.length === 8 && citydata[0].day.length === 8) {
+      loadingSec.style.display = "none";
 
-    if (citydata[1].day.length === 8) {
       build_3Row_table(dates, citydata[0], citydata[1]);
     }
   }
-  // resultArea.appendChild(maxTempTable);
 });
 // date function
 function req_dates() {
@@ -86,14 +89,24 @@ function HisCityDayWeather() {
 }
 
 function build_3Row_table(dateArr, firstRow, secondRow) {
-  // console.log(firstRow.name);
+  const tableTitle = document.createElement("h2");
+  const tableTitleContnet = document.createTextNode(
+    "Max Temprture in Celsuios"
+  );
+  const copyRight = document.createElement("a");
+  copyRight.target = "_blank";
+  copyRight.href = "https://www.weatherapi.com/";
+  copyRight.className = "copyRight";
+  copyRight.innerText = "Data were collected from www.weatherapi.com";
 
+  tableTitle.appendChild(tableTitleContnet);
   let tableHeaderValues = ["Name"];
   for (let i = 0; i < dateArr.length; i++) {
     tableHeaderValues.push(firstRow.date[i]);
   }
 
   let maxTempTable = document.createElement("table");
+  maxTempTable.className = "dataTable";
   let headerRow = maxTempTable.insertRow(0);
   let firstCityRow = maxTempTable.insertRow(1);
   let secondCityRow = maxTempTable.insertRow(2);
@@ -103,15 +116,17 @@ function build_3Row_table(dateArr, firstRow, secondRow) {
     let r1TempCellValue = firstCityRow.insertCell(i);
     let r2TempCellValue = secondCityRow.insertCell(i);
 
-    hR1TempCellValue.innerHTML = tableHeaderValues[i];
+    hR1TempCellValue.textContent = tableHeaderValues[i];
 
     if (i > 0) {
-      r1TempCellValue.innerHTML = firstRow.day[i - 1];
-      r2TempCellValue.innerHTML = secondRow.day[i - 1];
+      r1TempCellValue.textContent = firstRow.day[i - 1].maxtemp_c;
+      r2TempCellValue.textContent = secondRow.day[i - 1].maxtemp_c;
     } else {
-      r1TempCellValue.innerHTML = firstRow.name;
-      r2TempCellValue.innerHTML = secondRow.name;
+      r1TempCellValue.textContent = firstRow.name;
+      r2TempCellValue.textContent = secondRow.name;
     }
   }
+  resultArea.appendChild(tableTitle);
   resultArea.appendChild(maxTempTable);
+  resultArea.appendChild(copyRight);
 }
