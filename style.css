@@ -53,3 +53,9 @@
   color: #fff;
   cursor: pointer;
 }
+.loadingSec {
+  display: none;
+  width: 25%;
+  height: 25%;
+  margin: auto;
+}

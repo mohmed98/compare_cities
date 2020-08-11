@@ -4,10 +4,15 @@
 const wKey = "3684574286a446a6ac4122632200508";
 const submitBtn = document.getElementById("submitBtn");
 const resultArea = document.getElementById("resultSec");
+const loadingSec = document.querySelector(".loadingSec");
 // the mail function that start the script when user submit cities names
 
 submitBtn.addEventListener("click", function () {
   // getting user data
+  console.log(loadingSec);
+  resultArea.innerHTML = "";
+
+  loadingSec.style.display = "block";
   const firstCityName = document.getElementById("firstCityName");
   const secondCityName = document.getElementById("secondCityName");
   // inilize arrays for strong city weather daya for 8 days
@@ -37,10 +42,11 @@ submitBtn.addEventListener("click", function () {
     // console.log(citydata.day.length);
 
     if (citydata[1].day.length === 8 && citydata[0].day.length === 8) {
+      loadingSec.style.display = "none";
+
       build_3Row_table(dates, citydata[0], citydata[1]);
     }
   }
-  // resultArea.appendChild(maxTempTable);
 });
 // date function
 function req_dates() {
@@ -107,14 +113,14 @@ function build_3Row_table(dateArr, firstRow, secondRow) {
     let r1TempCellValue = firstCityRow.insertCell(i);
     let r2TempCellValue = secondCityRow.insertCell(i);
 
-    hR1TempCellValue.innerHTML = tableHeaderValues[i];
+    hR1TempCellValue.textContent = tableHeaderValues[i];
 
     if (i > 0) {
-      r1TempCellValue.innerHTML = firstRow.day[i - 1];
-      r2TempCellValue.innerHTML = secondRow.day[i - 1];
+      r1TempCellValue.textContent = firstRow.day[i - 1];
+      r2TempCellValue.textContent = secondRow.day[i - 1];
     } else {
-      r1TempCellValue.innerHTML = firstRow.name;
-      r2TempCellValue.innerHTML = secondRow.name;
+      r1TempCellValue.textContent = firstRow.name;
+      r2TempCellValue.textContent = secondRow.name;
     }
   }
   resultArea.appendChild(tableTitle);
