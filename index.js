@@ -69,7 +69,7 @@ function req_dates() {
 async function getData(cityName, date) {
   try {
     let response = await fetch(
-      `http://api.weatherapi.com/v1/history.json?key=${wKey}&q=${cityName}&dt=${date}`
+      `https://api.weatherapi.com/v1/history.json?key=${wKey}&q=${cityName}&dt=${date}`
     );
     let data = await response.json();
     if (response.ok) {
