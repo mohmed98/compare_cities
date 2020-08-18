@@ -8,6 +8,7 @@ const loadingSec = document.querySelector(".loadingSec");
 // the mail function that start the script when user submit cities names
 
 submitBtn.addEventListener("click", function () {
+  console.log("Button pressed");
   // getting user data
   resultArea.innerHTML = "";
 
@@ -38,7 +39,13 @@ submitBtn.addEventListener("click", function () {
     });
   }
   function stor_in_array(citydata) {
+    console.log(
+      `store function call first ctiy length: ${citydata[0].day.length} second ctiy length: ${citydata[1].day.length}`
+    );
+
     if (citydata[1].day.length === 8 && citydata[0].day.length === 8) {
+      console.log(`call complte`);
+
       loadingSec.style.display = "none";
 
       build_3Row_table(dates, citydata[0], citydata[1]);
