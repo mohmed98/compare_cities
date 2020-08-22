@@ -7,7 +7,9 @@ const resultArea = document.getElementById("resultSec");
 const loadingSec = document.querySelector(".loadingSec");
 // the mail function that start the script when user submit cities names
 
+
 submitBtn.addEventListener("click", init);
+
 
 // init fn
 function init() {
@@ -32,9 +34,11 @@ async function store_data(dateArr, fCityName, sCityName) {
     // first city fetch function call
     const fTemp = await getData(fCityName.value, dateArr[i]);
 
+
     currentReq[0].name = fTemp.location.name;
     currentReq[0].day.push(fTemp.forecast.forecastday[0].day);
     currentReq[0].date.push(fTemp.forecast.forecastday[0].date);
+
 
     const sTemp = await getData(sCityName.value, dateArr[i]);
 
