@@ -7,51 +7,48 @@ const resultArea = document.getElementById("resultSec");
 const loadingSec = document.querySelector(".loadingSec");
 // the mail function that start the script when user submit cities names
 
-submitBtn.addEventListener("click", function () {
-  console.log("Button pressed");
-  // getting user data
-  resultArea.innerHTML = "";
 
+submitBtn.addEventListener("click", init);
+
+
+// init fn
+function init() {
+  resultArea.innerHTML = "";
   loadingSec.style.display = "block";
+
   const firstCityName = document.getElementById("firstCityName");
   const secondCityName = document.getElementById("secondCityName");
-  // inilize arrays for strong city weather daya for 8 days
-  const firstCitydata = new Array();
-  let secondCitydata = [];
-  // get request date and calulte 8 days bevore and store it in dates array
   const dates = req_dates();
-  let currentReq = [new HisCityDayWeather(), new HisCityDayWeather()];
-  //fetch each day wether data
-  for (let i = 0; i < dates.length; i++) {
+  store_data(dates, firstCityName, secondCityName).then(function (result) {
+    loadingSec.style.display = "none";
+    console.log(result);
+    build_3Row_table(dates, result[0], result[1]);
+  });
+}
+
+// store_data fn
+async function store_data(dateArr, fCityName, sCityName) {
+  const currentReq = [new HisCityDayWeather(), new HisCityDayWeather()];
+
+  for (let i = 0; i < dateArr.length; i++) {
     // first city fetch function call
+    const fTemp = await getData(fCityName.value, dateArr[i]);
 
-    getData(firstCityName.value, dates[i]).then((data) => {
-      currentReq[0].name = data.location.name;
-      currentReq[0].day.push(data.forecast.forecastday[0].day);
-      currentReq[0].date.push(data.forecast.forecastday[0].date);
-    });
 
-    getData(secondCityName.value, dates[i]).then((data) => {
-      currentReq[1].name = data.location.name;
-      currentReq[1].day.push(data.forecast.forecastday[0].day);
-      currentReq[1].date.push(data.forecast.forecastday[0].date);
-      stor_in_array(currentReq);
-    });
+    currentReq[0].name = fTemp.location.name;
+    currentReq[0].day.push(fTemp.forecast.forecastday[0].day);
+    currentReq[0].date.push(fTemp.forecast.forecastday[0].date);
+
+
+    const sTemp = await getData(sCityName.value, dateArr[i]);
+
+    currentReq[1].name = sTemp.location.name;
+    currentReq[1].day.push(sTemp.forecast.forecastday[0].day);
+    currentReq[1].date.push(sTemp.forecast.forecastday[0].date);
   }
-  function stor_in_array(citydata) {
-    console.log(
-      `store function call first ctiy length: ${citydata[0].day.length} second ctiy length: ${citydata[1].day.length}`
-    );
+  return currentReq;
+}
 
-    if (citydata[1].day.length === 8 && citydata[0].day.length === 8) {
-      console.log(`call complte`);
-
-      loadingSec.style.display = "none";
-
-      build_3Row_table(dates, citydata[0], citydata[1]);
-    }
-  }
-});
 // date function
 function req_dates() {
   // request day date
@@ -80,9 +77,12 @@ async function getData(cityName, date) {
     );
     let data = await response.json();
     if (response.ok) {
+      console.log(data);
+
       return data;
     } else {
-      return data["error"]["code"];
+      loadingSec.style.display = "none";
+      resultArea.innerHTML = "CHECK YOUR DATA";
     }
   } catch (err) {
     console.log(err);

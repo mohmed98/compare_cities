@@ -1,69 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>WeatherApp</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
 
-  <body class="container">
-    <section class="header">
-      <header>
-        <h1>Compare Cities Weather</h1>
-      </header>
-    </section>
-    <section class="form">
-      <h2>Enter Cities Names</h2>
-      <div class="form--wrapper">
-        <label for="firstCityName" class="form--inputSec">
-          First City
-          <input
-            class="form--inputSec--input"
-            type="text"
-            name="firstCityName"
-            id="firstCityName"
-            placeholder="Example: your current city"
-          />
-        </label>
-        <label for="secondCityName" class="form--inputSec">
-          Second City
-          <input
-            class="form--inputSec--input"
-            type="text"
-            name="secondCityName"
-            id="secondCityName"
-            placeholder="Example: Your dream city"
-          />
-        </label>
-        <button id="submitBtn" class="form--submit">
-          Compare
-        </button>
-      </div>
-    </section>
-    <hr />
-    <div class="loadingSec">
-      <div
-        style="
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WeatherApp</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body class="container">
+  <section class="header">
+    <header>
+      <h1>Compare Cities Weather</h1>
+    </header>
+  </section>
+  <section class="form">
+    <h2>Enter Cities Names</h2>
+    <div class="form--wrapper">
+      <label for="firstCityName" class="form--inputSec">
+        First City
+        <input class="form--inputSec--input" type="text" name="firstCityName" id="firstCityName"
+          placeholder="Example: your current city" />
+      </label>
+      <label for="secondCityName" class="form--inputSec">
+        Second City
+        <input class="form--inputSec--input" type="text" name="secondCityName" id="secondCityName"
+          placeholder="Example: Your dream city" />
+      </label>
+      <button id="submitBtn" class="form--submit">
+        Compare
+      </button>
+    </div>
+  </section>
+  <hr />
+  <div class="loadingSec">
+    <div style="
           width: 100%;
           height: 0;
           padding-bottom: 100%;
           position: relative;
-        "
-      >
-        <iframe
-          src="https://giphy.com/embed/feN0YJbVs0fwA"
-          width="100%"
-          height="100%"
-          style="position: absolute;"
-          frameborder="0"
-          class="giphy-embed"
-          allowfullscreen
-        ></iframe>
-      </div>
+        ">
+      <iframe src="https://giphy.com/embed/feN0YJbVs0fwA" width="100%" height="100%" style="position: absolute;"
+        frameborder="0" class="giphy-embed" allowfullscreen></iframe>
     </div>
-    <div id="resultSec" class="resultSec"></div>
+  </div>
+  <div id="resultSec" class="resultSec"></div>
 
-    <script src="index.js"></script>
-  </body>
+  <script src="index.js"></script>
+</body>
+
 </html>
