@@ -7,9 +7,7 @@ const resultArea = document.getElementById("resultSec");
 const loadingSec = document.querySelector(".loadingSec");
 // the mail function that start the script when user submit cities names
 
-
 submitBtn.addEventListener("click", init);
-
 
 // init fn
 function init() {
@@ -21,7 +19,7 @@ function init() {
   const dates = req_dates();
   store_data(dates, firstCityName, secondCityName).then(function (result) {
     loadingSec.style.display = "none";
-    console.log(result);
+    // console.log(result);
     build_3Row_table(dates, result[0], result[1]);
   });
 }
@@ -34,11 +32,9 @@ async function store_data(dateArr, fCityName, sCityName) {
     // first city fetch function call
     const fTemp = await getData(fCityName.value, dateArr[i]);
 
-
     currentReq[0].name = fTemp.location.name;
     currentReq[0].day.push(fTemp.forecast.forecastday[0].day);
     currentReq[0].date.push(fTemp.forecast.forecastday[0].date);
-
 
     const sTemp = await getData(sCityName.value, dateArr[i]);
 
@@ -77,15 +73,14 @@ async function getData(cityName, date) {
     );
     let data = await response.json();
     if (response.ok) {
-      console.log(data);
-
       return data;
     } else {
       loadingSec.style.display = "none";
-      resultArea.innerHTML = "CHECK YOUR DATA";
+      resultArea.innerHTML =
+        "Error, check your cities names and network connection please";
     }
   } catch (err) {
-    console.log(err);
+    // console.log(err);
   }
 }
 
